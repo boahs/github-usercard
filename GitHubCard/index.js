@@ -4,7 +4,9 @@ import axios from "axios";
     (replacing the placeholder with your Github name):
     https://api.github.com/users/<your name>
 */
-axios.get("https://api.github.com/users/boahs");
+axios.get("https://api.github.com/users/boahs").then((response) => {
+  gitHubCard(response.data);
+});
 // .then((response) => {
 //   console.log(response);
 // });
@@ -73,6 +75,23 @@ function gitHubCard(cardObj) {
   const following = document.createElement("p");
   const bio = document.createElement("p");
 
+  name.textContent = cardObj.name;
+  cardURL.textContent = cardObj.html_url;
+  userName.textContent = cardObj.login;
+  location.textContent = `Location: ${cardObj.location}`;
+  profile.textContent = "Profile: ";
+  followers.textContent = `Followers: ${cardObj.followers}`;
+  following.textContent = `Following: ${cardObj.following}`;
+  bio.textContent = `Bio: ${cardObj.bio}`;
+
+  card.classList.add("card");
+  cardInfo.classList.add("card-info");
+  name.classList.add("name");
+  userName.classList.add("username");
+
+  cardImg.setAttribute("src", cardObj.avatar_url);
+  cardURL.setAttribute("href", cardObj.html_url);
+
   card.appendChild(cardImg);
   card.appendChild(cardInfo);
   cardInfo.appendChild(name);
@@ -83,8 +102,11 @@ function gitHubCard(cardObj) {
   cardInfo.appendChild(followers);
   cardInfo.appendChild(following);
   cardInfo.appendChild(bio);
+
+  const cards = document.querySelector(".cards");
+  cards.appendChild(card);
+  return card;
 }
-debugger;
 
 /*
   List of LS Instructors Github username's:
